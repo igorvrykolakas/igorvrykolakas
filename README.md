@@ -1,0 +1,5 @@
+- 👋 Hi, I’m @igorvrykolakas
+- 👀 I’m interested in develop software
+- 🌱 I'm 22 years old
+- 📫 How to reach me: igorcomcafe@gmail.com // Instagram: @igorvrykolakas //
+- 🧠 I'm learning Python
