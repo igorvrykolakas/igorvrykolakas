@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wilderfeast — Guia de Mesa</title>
+<meta name="description" content="Guia rápido, interativo e simples para jogar Wilderfeast, o RPG de caçar e cozinhar monstros.">
+<style>
+:root{
+  --bg:#17130f; --panel:#221c16; --panel2:#2c241c; --line:#41362a;
+  --text:#f1e8d8; --muted:#b5a78f; --accent:#f0a23a; --accent2:#7fc08a;
+  --danger:#e8715a; --info:#74b6d9; --radius:14px;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f6efe2; --panel:#fffaf0; --panel2:#f1e6d1; --line:#dccfb4;
+    --text:#2a2118; --muted:#6f6350; --accent:#b8650a; --accent2:#2f7a45;
+    --danger:#b83c26; --info:#1f6f99;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f6efe2; --panel:#fffaf0; --panel2:#f1e6d1; --line:#dccfb4;
+  --text:#2a2118; --muted:#6f6350; --accent:#b8650a; --accent2:#2f7a45;
+  --danger:#b83c26; --info:#1f6f99;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+header.top{padding:18px 16px 0;max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:800;letter-spacing:.04em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+.themebtn{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.85rem}
+nav.tabs{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-top:10px}
+.tablist{max-width:980px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:thin}
+.tab{flex:0 0 auto;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;font:600 .92rem inherit;font-family:inherit;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--accent);color:#1b1208;border-color:var(--accent)}
+.tab:focus-visible,.themebtn:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--info);outline-offset:2px}
+main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+.panel[hidden]{display:none}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.15;margin:.2em 0 .3em}
+h2{font-size:1.5rem;margin:1.6em 0 .4em;padding-bottom:.25em;border-bottom:1px solid var(--line)}
+h3{font-size:1.1rem;margin:1.2em 0 .3em;color:var(--accent)}
+p{margin:.5em 0}
+.lead{font-size:1.1rem;color:var(--muted)}
+.hero{background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;margin-bottom:18px}
+.law{display:inline-block;margin:10px 0 0;padding:8px 14px;border:1px dashed var(--accent);border-radius:10px;font-weight:800;letter-spacing:.06em;color:var(--accent)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.card h3{margin-top:0}
+.card.go{cursor:pointer;text-align:left;color:inherit;font:inherit;width:100%}
+.card.go:hover{border-color:var(--accent)}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:2px 8px;background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.callout{border-left:4px solid var(--info);background:var(--panel);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.callout.warn{border-color:var(--danger)}
+.callout.ok{border-color:var(--accent2)}
+.callout b.t{display:block;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:12px 0}
+.steps li{counter-increment:s;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px 10px 54px;margin:8px 0}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:var(--accent);color:#1b1208;font-weight:800;display:grid;place-items:center}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:10px 0;overflow:hidden}
+details>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;align-items:center;gap:10px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"▸";color:var(--accent);transition:transform .15s;display:inline-block}
+details[open]>summary::before{transform:rotate(90deg)}
+details>.body{padding:0 16px 14px;border-top:1px solid var(--line)}
+details.ex{border-color:color-mix(in srgb,var(--accent2) 55%,var(--line))}
+details.ex>summary{color:var(--accent2)}
+details.ex>summary::after{content:"exemplo";margin-left:auto;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.btn{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer;font:600 .88rem inherit;font-family:inherit}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:#1b1208;border-color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.tablewrap{overflow-x:auto}
+kbd,.k{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:0 6px;font-weight:700;font-size:.92em;white-space:nowrap}
+.sty{color:var(--accent);font-weight:700}
+.dice{display:inline-grid;place-items:center;min-width:36px;height:36px;padding:0 6px;border-radius:9px;font-weight:800;border:2px solid var(--line);background:var(--panel2);margin:2px}
+.dice.ok{border-color:var(--accent2);color:var(--accent2)}
+.dice.act{border-color:var(--accent);color:var(--accent);border-radius:50%}
+.sim{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:end}
+.sim label{display:flex;flex-direction:column;font-size:.82rem;color:var(--muted);gap:4px}
+.sim select,.sim input{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit}
+#simOut{margin-top:12px;min-height:60px}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap}
+.chk{display:flex;gap:8px;align-items:center;padding:6px 0}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.chk.done span{text-decoration:line-through;color:var(--muted)}
+.mini{font-size:.9rem;color:var(--muted)}
+footer{max-width:980px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.85rem}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin:12px 0}
+.flow>div{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.flow>div b{display:block;color:var(--accent)}
+@media print{nav.tabs,.toolbar,.themebtn{display:none}.panel[hidden]{display:block!important}details{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">WILDER<span>FEAST</span> · guia de mesa</div>
+  <button class="themebtn" id="themeBtn" aria-label="Alternar tema claro/escuro">◐ Tema</button>
+</header>
+
+<nav class="tabs" aria-label="Seções do guia">
+  <div class="tablist" role="tablist" id="tablist">
+    <button class="tab" role="tab" data-tab="inicio">🏠 Início</button>
+    <button class="tab" role="tab" data-tab="testes">🎲 Testes</button>
+    <button class="tab" role="tab" data-tab="personagem">🧑‍🍳 Personagem</button>
+    <button class="tab" role="tab" data-tab="saude">❤️ Saúde & Harmonia</button>
+    <button class="tab" role="tab" data-tab="trilha">🧭 Trilha</button>
+    <button class="tab" role="tab" data-tab="cacada">⚔️ Combate</button>
+    <button class="tab" role="tab" data-tab="banquete">🍲 Banquete</button>
+    <button class="tab" role="tab" data-tab="aventura">📖 Aventura</button>
+    <button class="tab" role="tab" data-tab="cola">⚡ Cola rápida</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ INÍCIO ============ -->
+<section class="panel" id="inicio" role="tabpanel">
+  <div class="hero">
+    <span class="tag">RPG de mesa · Guia Rápido v1.6</span>
+    <h1>Bem-vindo à Terra Una</h1>
+    <p class="lead">Um mundo de monstros gigantes, ruínas de reis antigos e trens voadores. Você é um <b>feral</b>: caça monstros enlouquecidos por uma doença, cozinha a carne deles e vira um pouco do que come.</p>
+    <div class="law">VOCÊ É O QUE VOCÊ COME</div>
+  </div>
+
+  <h2>O universo em 1 minuto</h2>
+  <div class="grid">
+    <div class="card"><h3>🦖 Monstros por todo lado</h3><p>Longos pescoços cruzando desertos, bichos cuspindo fogo nos pântanos, criaturas nas nuvens e nas copas das árvores. São belos, brutais, bobos e famintos. Inspirados em paleontologia, criptozoologia, <i>Monster Hunter</i> e <i>Godzilla</i>.</p></div>
+    <div class="card"><h3>💰 O Cartel</h3><p>Um conglomerado mercantil que cresce a partir do centro do continente. Paga caçadores para capturar monstros e alimenta gigantes famintos. Sem querer (ou sem se importar), espalha o frenesi com tecnologia sucateada.</p></div>
+    <div class="card"><h3>🔥 O frenesi</h3><p>Uma maldição viral e incurável que amplia fome, dor e fúria num ciclo vicioso. O monstro infectado machuca a si mesmo e aos outros. As pessoas têm medo, pedem proteção ao Cartel… e o Cartel espalha ainda mais o frenesi.</p></div>
+    <div class="card"><h3>🍴 Os ferais</h3><p>Guardiões mutantes, quase quimeras. Não são uma ordem formal: sem chefe nem hierarquia, cada um decide o que "harmonia com a natureza" significa. Usam <b>utensílios gigantes de arkaicaço</b> (um metal místico que se regenera) como armas.</p></div>
+  </div>
+
+  <h2>O que um feral faz</h2>
+  <div class="grid">
+    <div class="card"><h3>1. Caça</h3><p>Rastreia monstros em frenesi e acaba com o sofrimento deles antes que machuquem inocentes.</p></div>
+    <div class="card"><h3>2. Cozinha</h3><p>O frenesi se espalha pela carcaça, mas você sabe prepará-la com segurança. Comer a caça dá poderes permanentes.</p></div>
+    <div class="card"><h3>3. Alimenta</h3><p>Cuida de monstros feridos e órfãos. Curar o mundo é mais do que exterminar.</p></div>
+  </div>
+
+  <h2>Tom do jogo</h2>
+  <p>Sério e bobo ao mesmo tempo. A natureza não é consciente de si mesma: o leão-monstro majestoso contempla o pôr do sol e, no segundo seguinte, lambe a própria bunda. Vocês lidam com a destruição do mundo natural, mas também transformam kaiju em lanchinho com utensílios de cozinha gigantes. O grupo encontra o equilíbrio.</p>
+  <div class="callout warn"><b class="t">Segurança na mesa</b>Doença e morte de animais, e bichos como aranhas e cobras, podem ser temas sensíveis. O jogo recomenda o <b>Cartão X</b> (John Stavropoulos): qualquer pessoa pode sinalizar para pular ou suavizar um assunto, sem explicar por quê.</div>
+
+  <h2>Como é jogar</h2>
+  <p>Wilderfeast é uma conversa. Alguém faz o papel da <b>Guia</b> (o Mestre: apresenta o mundo, os monstros e as consequências). Os outros são <b>ferais</b>. Quando algo arriscado acontece, os dados decidem.</p>
+  <div class="flow">
+    <div><b>🗣️ Fase livre</b>Conversa e Testes soltos. Sempre disponível.</div>
+    <div><b>🧭 A Trilha</b>Viajar e seguir rastros até o monstro.</div>
+    <div><b>⚔️ A Caçada</b>Combate tático contra o monstro.</div>
+    <div><b>🍲 O Banquete</b>Cozinhar o monstro, honrá-lo e ganhar poder.</div>
+  </div>
+  <p class="mini">Uma "Jornada" costuma seguir essa ordem, mas dá para pular entre as fases quando a história pedir.</p>
+
+  <details><summary>O que preciso para jogar?</summary><div class="body">
+    <ul>
+      <li>Dados de <b>6 lados (d6)</b> — vários; um <b>d8</b>; um <b>d20</b>.</li>
+      <li>Uma <b>ficha de personagem</b> por feral (o Guia Rápido traz 6 prontas).</li>
+      <li>Papel para marcar <b>Harmonia</b> (compartilhada) e a lista de <b>Ingredientes</b> do grupo.</li>
+      <li>Opcional: <b>Marcador de Combate</b> (régua de Pernadas) e um lanche de verdade 🙂</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Como começar a primeira sessão (passo a passo)</summary><div class="body">
+    <ol>
+      <li>Decidam quem será a <b>Guia</b>.</li>
+      <li>Conversem sobre ferramentas de segurança (Cartão X) e o tom.</li>
+      <li>Cada feral escolhe um personagem pronto. Só depois decidam quem é a <b>Conexão</b> de cada um.</li>
+      <li>Montem a despensa: cada feral tem <b>3 porções do Prato Típico</b> e <b>1 porção do Tempero Típico</b>.</li>
+      <li>Joguem a aventura tutorial <i>Receita para o Desastre</i> (aba <b>Aventura</b>).</li>
+    </ol>
+  </div></details>
+
+  <h2>Para onde ir agora?</h2>
+  <div class="grid">
+    <button class="card go" data-goto="testes"><h3>🎲 Quero entender os dados</h3><p>O Teste: a regra mais importante do jogo.</p></button>
+    <button class="card go" data-goto="cacada"><h3>⚔️ Vou lutar contra um monstro</h3><p>Ações, distância e comportamento do monstro.</p></button>
+    <button class="card go" data-goto="banquete"><h3>🍲 Vamos cozinhar</h3><p>Receitas, Ingredientes e poderes.</p></button>
+    <button class="card go" data-goto="cola"><h3>⚡ Só preciso de uma cola</h3><p>Resumo de tudo em uma tela.</p></button>
+  </div>
+</section>
+
+<!-- ============ TESTES ============ -->
+<section class="panel" id="testes" role="tabpanel" hidden>
+  <h1>Fazendo um Teste</h1>
+  <p class="lead">Teste = resolver uma ação arriscada. Só role se houver <b>algo relevante a perder</b>. Pergunte antes: <i>"o que está em risco?"</i></p>
+
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <ol class="steps">
+    <li><b>Estilo + Habilidade.</b> Diga o que quer fazer. A Guia define o <span class="sty">Estilo</span> (como) e a <b>Habilidade</b> (o quê). Ex.: <i>Chamado Capcioso</i>.</li>
+    <li><b>Pilha de dados.</b> Pegue tantos <b>d6</b> quanto seu nível no Estilo. São seus <b>Dados de Estilo</b>.</li>
+    <li><b>Dado de Ação.</b> Escolha: <b>Segure a onda</b> (+1 d8) ou <b>Vire o bicho</b> (troca 1 d6 por 1 d20).</li>
+    <li><b>Role</b> e some o bônus da Habilidade (+1 por nível) em qualquer dado, dividindo como quiser.</li>
+    <li><b>Confira.</b> Cada d6 com <b>5+</b> é um <b>Sucesso</b>. O Dado de Ação vira o <b>[A]</b>, que mede a qualidade.</li>
+  </ol>
+
+  <details><summary>Segure a onda × Vire o bicho</summary><div class="body">
+    <div class="tablewrap"><table>
+      <tr><th></th><th>🧍 Segure a onda</th><th>🐲 Vire o bicho</th></tr>
+      <tr><td><b>Dados</b></td><td>Todos os d6 + <b>1 d8</b></td><td><b>−1 d6</b> + <b>1 d20</b></td></tr>
+      <tr><td><b>Chance de sucesso</b></td><td>Maior</td><td>Menor</td></tr>
+      <tr><td><b>Força do sucesso [A]</b></td><td>Limitada (até 8)</td><td>Pode ser enorme (até 20)</td></tr>
+      <tr><td><b>Exige</b></td><td>Nada</td><td>Descrever como um <b>Traço</b> ajuda (não vale BRIO, PERCEPÇÃO nem Técnicas)</td></tr>
+      <tr><td><b>Se falhar</b></td><td>Consequências normais</td><td>Consequências normais <b>e o grupo perde 1 de Harmonia</b></td></tr>
+    </table></div>
+    <p class="mini">Dica: com Estilo +2, segurar a onda é mais seguro. No calor do combate, virar o bicho pode decidir a luta.</p>
+  </div></details>
+
+  <details><summary>O que fazer com o resultado</summary><div class="body">
+    <ul>
+      <li><b>Nenhum 5+ em Dado de Estilo</b> = <b>falha</b>. A situação muda, a oportunidade se perde ou alguém se aproveita. Nunca é só "nada acontece".</li>
+      <li><b>1 ou mais Sucessos</b> = você faz o que queria. O valor de [A] diz o quão bem:
+        <ul>
+          <li><span class="k">[A] 1–4</span> sucesso <b>parcial</b>: menos eficaz ou com revés.</li>
+          <li><span class="k">[A] 5–7</span> sucesso <b>padrão</b>: conseguiu o que queria.</li>
+          <li><span class="k">[A] 8+</span> sucesso <b>crítico</b>: muito eficaz ou ganha impulso.</li>
+        </ul>
+      </li>
+      <li><b>Sucessos extras</b> (além do primeiro) podem ser gastos em Traços que custam Sucessos. Você <b>nunca</b> gasta o último. Sem ideia? Gaste em <b>BRIO</b>: <span class="k">+1 em [A]</span>.</li>
+    </ul>
+  </div></details>
+
+  <details class="ex"><summary>Exemplo: Nhat Zin amarra um monstro</summary><div class="body">
+    <p>Nhat Zin tem <b>+3 em Manufatura</b>. Rola e tira <span class="dice ok">5</span><span class="dice">4</span><span class="dice">1</span> nos d6 e <span class="dice act">2</span> no d8 de ação.</p>
+    <ol>
+      <li>Aplica <b>+1 no 4</b> → vira 5. Agora tem <b>2 Sucessos</b>.</li>
+      <li>Os <b>+2 restantes</b> vão para o Dado de Ação: 2 → <b>4</b>.</li>
+      <li>Gasta o Sucesso extra em <b>BRIO</b>: [A] = <b>5</b>. Sucesso padrão: o nó é firme.</li>
+    </ol>
+    <p class="mini">Prioridade típica: primeiro garanta pelo menos um 5+, depois use o bônus restante no Dado de Ação ou para criar mais 5+.</p>
+  </div></details>
+
+  <h2>Vantagem e Desvantagem</h2>
+  <div class="grid">
+    <div class="card"><h3 style="color:var(--accent2)">Vantagem</h3><p>Sucesso a partir de <b>4+</b> no d6.</p></div>
+    <div class="card"><h3 style="color:var(--danger)">Desvantagem</h3><p>Sucesso só com <b>6</b> no d6.</p></div>
+  </div>
+  <p>Se tiver as duas, elas se cancelam, não importa quantas fontes de cada.</p>
+  <details><summary>Ajudando um parça</summary><div class="body">
+    <p>Antes de um parça rolar, escolha um dos seus <b>Traços</b>, descreva como ele ajuda e <b>gaste 1 de Harmonia</b>: seu parça ganha <b>Vantagem</b>. Se ele falhar, <b>vocês dois</b> sofrem as consequências. Um feral só recebe ajuda de um parça por vez.</p>
+  </div></details>
+
+  <h2>Desafios</h2>
+  <p>Sequência de Testes em que cada sucesso <b>soma seu [A]</b> a um total. Venceu se chegar ao <b>Valor Alvo (VA)</b>.</p>
+  <div class="grid">
+    <div class="card"><b>VA 10</b><br>Curto: algumas tentativas.</div>
+    <div class="card"><b>VA 30</b><br>Médio: uma sessão.</div>
+    <div class="card"><b>VA 50</b><br>Longo: várias sessões.</div>
+  </div>
+  <details><summary>Temporizador (a pressão do tempo)</summary><div class="body">
+    <p>Desenhe um círculo dividido em segmentos (um <b>4-Tiques</b> tem 4). Marque um segmento em intervalos (por rodada, dia, ou quando um feral faz um Teste). Se completar antes de vocês baterem o VA, o Desafio falha e as consequências vêm. Costuma ter de 4 a 12 segmentos.</p>
+  </div></details>
+  <details class="ex"><summary>Exemplo: desviar uma debandada (VA 10, 4-Tiques)</summary><div class="body">
+    <p>Uma manada corre em direção a um vilarejo. Cada Teste marca 1 tique.</p>
+    <table>
+      <tr><th>Tique</th><th>Teste</th><th>Resultado</th><th>Total</th></tr>
+      <tr><td>1</td><td>Assegurar Ligeiro</td><td>sucesso, [A] 5</td><td>5</td></tr>
+      <tr><td>2</td><td>(outro feral)</td><td>sucesso por pouco, [A] 1</td><td>6</td></tr>
+      <tr><td>3</td><td>Assegurar Capcioso</td><td>falha: +0 e 1d20 de Dano</td><td>6</td></tr>
+      <tr><td>4</td><td>Agarrão Poderoso</td><td>sucesso, [A] 3</td><td>9</td></tr>
+    </table>
+    <p>9 &lt; 10 e o temporizador acabou: a manada pisoteia o vilarejo. Depois vem outro Desafio (reconstruir, VA 50), sem temporizador: uma rolagem de Manufatura por feral por Jornada.</p>
+  </div></details>
+
+  <h2>Consequências (quando erra)</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Tipo</th><th>O que significa</th></tr>
+    <tr><td><b>Recursos</b></td><td>Perde tempo, Ingredientes ou acesso ao Utensílio; ou a Guia marca o Temporizador.</td></tr>
+    <tr><td><b>Oportunidade</b></td><td>Aquela abordagem não serve mais: não repita o mesmo Estilo ou Habilidade.</td></tr>
+    <tr><td><b>Impacto</b></td><td>Menos eficaz que o planejado. Sempre acontece quando o [A] exato importa.</td></tr>
+    <tr><td><b>Controle</b></td><td>Posição arriscada: Desvantagem no próximo Teste, ou falhas futuras ficam piores.</td></tr>
+    <tr><td><b>Dano colateral</b></td><td>Outra pessoa se machuca.</td></tr>
+    <tr><td><b>Saúde</b></td><td>Sofre uma Condição, perde Resistência ou o grupo perde Harmonia.</td></tr>
+  </table></div>
+  <div class="callout"><b class="t">Padrão se estiver em dúvida (Guia)</b>Falha ou sucesso parcial = <b>perde 2 de Resistência</b>. Na falha, também <b>perde a oportunidade</b>. Virou o bicho e falhou? O grupo perde 1 de Harmonia, além do resto.</div>
+
+  <details><summary>Reunindo informações (o que meu personagem sabe?)</summary><div class="body">
+    <ol>
+      <li>Conhecimento comum ou óbvio → você sabe.</li>
+      <li>Sua <b>Origem</b> dá motivo para saber → você sabe.</li>
+      <li>Dá para descobrir, mas sem motivo → faça um Teste (padrão: <b>Estudo</b>, qualquer Estilo). Você sempre descobre; o resultado diz o <b>quanto custou</b>.</li>
+      <li>Não há como descobrir → você não sabe.</li>
+    </ol>
+  </div></details>
+
+  <details><summary>Regras de matemática do jogo</summary><div class="body">
+    <ul><li>Sempre <b>arredonde para cima</b>.</li><li><b>Zero</b> é o mínimo.</li><li><b>Some</b> multiplicações e divisões: dois "dobra" = <b>triplica</b>; duas metades = divide por <b>três</b>.</li></ul>
+  </div></details>
+
+  <h2>🎲 Simulador de Teste</h2>
+  <div class="card">
+    <p class="mini">Treine as regras: ele aplica o bônus de Habilidade do jeito sugerido (garante um 5+ primeiro; o resto vai para o Dado de Ação).</p>
+    <div class="sim">
+      <label>Nível de Estilo (d6)<select id="sStyle"><option>0</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+      <label>Bônus de Habilidade<select id="sSkill"><option>0</option><option selected>1</option><option>2</option><option>3</option></select></label>
+      <label>Lado<select id="sSide"><option value="h">Segure a onda (+d8)</option><option value="b">Vire o bicho (−1d6, +d20)</option><option value="m">Monstro/NPC (+d20)</option></select></label>
+      <label>Circunstância<select id="sAdv"><option value="n">Normal (5+)</option><option value="a">Vantagem (4+)</option><option value="d">Desvantagem (6)</option></select></label>
+      <button class="btn primary" id="rollBtn">Rolar!</button>
+    </div>
+    <div id="simOut" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ PERSONAGEM ============ -->
+<section class="panel" id="personagem" role="tabpanel" hidden>
+  <h1>Seu personagem</h1>
+  <p class="lead">A ficha é uma crônica da sua vida: cada atributo é um momento importante ou um monstro que você incorporou.</p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <h2>Estilos (o <i>como</i>)</h2>
+  <p>Nível de +1 a +5 para ferais (+0 a +5 para monstros). Cada nível = <b>1 d6</b> no Teste. Personagens prontos: <b>+3, +2, +1, +1</b>.</p>
+  <div class="grid">
+    <div class="card"><h3>PODEROSO</h3>Forte, tenaz, firme, grosseiro.</div>
+    <div class="card"><h3>PRECISO</h3>Calmo, metódico, focado, exato.</div>
+    <div class="card"><h3>LIGEIRO</h3>Rápido, enérgico, alerta, hábil.</div>
+    <div class="card"><h3>CAPCIOSO</h3>Sutil, dissimulado, técnico, astuto.</div>
+  </div>
+
+  <h2>Habilidades (o <i>quê</i>)</h2>
+  <p>Nível de +0 a +3. Cada nível = <b>+1</b> no resultado, em qualquer dado. Prontos: <b>+1 em três</b>, +0 nas outras. Combine <b>qualquer Habilidade com qualquer Estilo</b>.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Habilidade</th><th>Serve para</th><th>Exemplo</th></tr>
+    <tr><td><b>ASSEGURAR</b></td><td>Acalmar ou encorajar criaturas (inclusive você)</td><td>Assegurar Poderoso: segurar o monstro no chão até ele se acalmar</td></tr>
+    <tr><td><b>CHAMADO</b></td><td>Falar com monstros, vocalizar, usar Traços sobrenaturais</td><td>Chamado Capcioso: imitar o canto de um pássaro</td></tr>
+    <tr><td><b>MANUFATURA</b></td><td>Criar ou consertar objetos</td><td>Manufatura Preciso: ajustar um mecanismo delicado</td></tr>
+    <tr><td><b>CURA</b></td><td>Tratar ferimentos</td><td>Cura Preciso: suturar um corte</td></tr>
+    <tr><td><b>EXIBIÇÃO</b></td><td>Fazer show, chamar atenção</td><td>Exibição Ligeiro: cortar cebolas bem rápido</td></tr>
+    <tr><td><b>AGARRÃO</b></td><td>Segurar ou agarrar criaturas e objetos</td><td>Agarrão Ligeiro: roubar chaves num cinto durante a perseguição</td></tr>
+    <tr><td><b>ARMAZENAMENTO</b></td><td>Ter ou guardar recursos</td><td>Armazenamento Preciso: ter o presente certo para o pedágio</td></tr>
+    <tr><td><b>BUSCA</b></td><td>Encontrar rastros, comida, inimigos</td><td>Busca Ligeiro: pegar peixes ágeis na água rasa</td></tr>
+    <tr><td><b>TIRO</b></td><td>Atacar à distância</td><td>Tiro Preciso: acertar o monstro na asa</td></tr>
+    <tr><td><b>GOLPE</b></td><td>Atacar de perto</td><td>Golpe Capcioso: pular e emboscar</td></tr>
+    <tr><td><b>ESTUDO</b></td><td>Obter conhecimento, avaliar situações</td><td>Estudo Ligeiro: identificar um monstro que viu por um segundo</td></tr>
+    <tr><td><b>TRAVESSIA</b></td><td>Cruzar grandes distâncias</td><td>Travessia Poderoso: atravessar lama funda</td></tr>
+  </table></div>
+
+  <h2>Traços (o que te faz especial)</h2>
+  <p>Qualidades como <b>VOAR</b> ou <b>VENENO</b>. Alguns têm níveis (VOAR 2). Você ganha <b>um nível por vez</b>. Todo Traço tem efeito mecânico, mas pode ajudar em <b>qualquer situação</b> se você explicar como. A Guia deve ser generosa.</p>
+  <div class="grid">
+    <div class="card"><h3>BRIO <span class="tag">todos</span></h3><p>A vontade de sobreviver.<br><b>Custo: 1 Sucesso</b> → [A] +1.</p></div>
+    <div class="card"><h3>PERCEPÇÃO <span class="tag">humanos</span></h3><p>Inteligência para ler situações.<br><b>Custo: 1 Sucesso</b> → especifique um detalhe da situação. Normalmente dá Vantagem ou abre uma abordagem nova.</p></div>
+  </div>
+  <details><summary>Como usar PERCEPÇÃO (e quando)</summary><div class="body">
+    <p>Use para descobrir um ponto fraco entre as escamas, um abrigo na mata ou uma ligação pessoal com um NPC recém-apresentado. Há dois jeitos de jogar, e a mesa escolhe:</p>
+    <ul><li><b>Imersivo:</b> você "nota" algo que sempre esteve lá, perguntando à Guia como seu personagem.</li><li><b>Coautoria:</b> você <i>inventa</i> um fato novo sobre a Terra Una.</li></ul>
+    <p>Depois a Guia decide o que isso significa nas regras.</p>
+  </div></details>
+
+  <h2>Outros atributos</h2>
+  <div class="grid">
+    <div class="card"><h3>🍴 Utensílio</h3><p>Objeto de cozinha gigante de <b>arkaicaço</b>. É sua arma e uma <b>Parte</b> com 20 de Durabilidade. Traz uma <b>Técnica</b> inicial (um Traço exclusivo dele).</p><p class="mini">Os seis do Guia Rápido: Cutelo, Luvas de Forno, Frigideira, Espeto, Maçarico e Barbante.</p></div>
+    <div class="card"><h3>📜 Origem em Três Pratos</h3><p>Sua história contada pela comida, mais uma <b>Conexão</b> com outro personagem. Decidam as conexões <i>depois</i> de todos escolherem.</p></div>
+    <div class="card"><h3>🥘 Prato e Tempero Típicos</h3><p>Ingredientes da sua terra natal que definem seu jeito de cozinhar. Você começa com 3 porções do Prato e 1 do Tempero.</p></div>
+    <div class="card"><h3>🦕 Conhecido monstruoso</h3><p>Um NPC monstro que te liga à natureza. No Guia Rápido, todos conhecem <b>Pãodoce</b>, uma mammudo jovem e tímida.</p></div>
+    <div class="card"><h3>🎭 Nome e personalidade</h3><p>Um nome e dois guias para interpretar.</p></div>
+    <div class="card"><h3>📊 Atributos que mudam</h3><p>Resistência, Durabilidade do Utensílio e Condições.</p></div>
+  </div>
+  <details><summary>Técnicas do Utensílio</summary><div class="body">
+    <p>Você usa Técnicas enquanto tiver o Utensílio, <b>mesmo quebrado</b> (a menos que a Técnica diga o contrário). Sem acesso ao Utensílio (perdido, roubado), sem Técnicas. Elas podem custar Resistência, Ações ou Sucessos. Veja os custos exatos na sua ficha.</p>
+    <p>Técnicas e BRIO/PERCEPÇÃO <b>não podem</b> ser usados para "virar o bicho".</p>
+  </div></details>
+</section>
+
+<!-- ============ SAÚDE ============ -->
+<section class="panel" id="saude" role="tabpanel" hidden>
+  <h1>Saúde, Harmonia e Condições</h1>
+  <p class="lead">Dois medidores: um é <b>seu</b> (Resistência), o outro é <b>do grupo</b> (Harmonia).</p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <div class="grid">
+    <div class="card"><h3>❤️ Resistência</h3><p>Saúde e energia. Ferais têm <b>máx. 20</b>. Perde ao sofrer <b>Dano</b> ou ao <b>gastar</b> em Técnicas. Recupera principalmente comendo refeições.</p></div>
+    <div class="card"><h3>🌿 Harmonia</h3><p>Sua relação com a natureza e com os parças. No Guia Rápido: <b>começa em 3</b> (máximo 3). Compartilhada por todos: deixe visível.</p></div>
+  </div>
+
+  <h2>Resistência chegou a 0</h2>
+  <p>Você ganha <b>Ferido</b> e a Resistência volta ao máximo. Se o que zerou foi um <b>gasto</b>, você ainda paga o restante. Se foi <b>Dano</b>, o excedente é ignorado.</p>
+  <details class="ex"><summary>Exemplo: Tesouro com 3 de Resistência</summary><div class="body">
+    <p><b>Gasta 10 numa Técnica:</b> zera (ganha Ferido), volta a 20 e paga o resto: 10 − 3 = 7 → fica com <b>13</b>.</p>
+    <p><b>Sofre 10 de Dano:</b> zera (ganha Ferido), volta a 20. O excedente é ignorado → fica com <b>20</b>.</p>
+  </div></details>
+
+  <h2>Escada do "Ferido"</h2>
+  <ol class="steps">
+    <li><b>Ferido</b> — sinais de fraqueza. Sem efeito direto, mas interage com outras regras e muda o comportamento dos monstros.</li>
+    <li><b>Ferido 2</b> — não pode gastar Resistência (ainda paga o resto se foi isso que causou).</li>
+    <li><b>Ferido 3</b> — no limite. Resistência fica em 0 e não muda. Caído = fora de ação. Se <b>forçar a barra</b>, age normalmente, mas <b>na próxima vez que sofrer Dano, morre</b>.</li>
+  </ol>
+  <div class="callout warn"><b class="t">Risco é escolha do jogador</b>Se estiver Ferido 3 e permanecer caído, tem uma chance de escapar da morte, que pode custar recursos, oportunidades ou dano colateral (ex.: o monstro arrasta você até o covil e você recomeça sozinho a próxima aventura).</div>
+
+  <h2>Harmonia: quando muda</h2>
+  <div class="grid">
+    <div class="card"><h3 style="color:var(--danger)">−1 Harmonia</h3><ul><li>Você <b>vira o bicho e falha</b>.</li><li>Alguém <b>ajuda um parça</b> (gasta 1).</li><li>Ações destrutivas ou desproporcionais (ex.: matar um monstro sem motivo), a critério da Guia.</li></ul></div>
+    <div class="card"><h3 style="color:var(--accent2)">+1 Harmonia</h3><ul><li>O grupo <b>divide uma refeição</b> e aprofunda vínculos (máx. 1 vez por refeição).</li><li>Ações concretas para proteger ou recuperar a natureza (reabilitar um monstro ferido e soltá-lo).</li></ul></div>
+  </div>
+  <details><summary>E se a Harmonia já estiver em 0?</summary><div class="body">
+    <p>Ela fica em 0, mas quem causou a perda ganha a Condição <b>Dissonante</b> (Desvantagem em <i>todos</i> os Testes) até a Harmonia subir de novo. Comer em grupo é o caminho de volta.</p>
+  </div></details>
+  <details><summary>Comer "vale" sempre? (a regra do espírito)</summary><div class="body">
+    <p>Você decide quando o vínculo aconteceu. Não é "brecha" se acontece em toda refeição, desde que reconheçam de onde veio a comida e com quem a dividem.</p>
+  </div></details>
+
+  <h2>Condições</h2>
+  <p>Se você já tem a Condição e sofre de novo, ela <b>sobe um nível</b>. Se algo remove a Condição, <b>perde um nível por vez</b>. Quando você <b>Acampa</b>, remove todas, exceto <b>Dissonante</b> e <b>Ferido</b>.</p>
+  <details><summary><b>Exposto</b></summary><div class="body">
+    <p>Você sofre <b>Dano em dobro</b>. No combate, acaba se você Levantar a Guarda ou sofrer Dano de um Ataque. Se ficar Escondido enquanto Exposto (ou vice-versa), as duas somem.</p>
+    <p class="mini">Lembre: soma de multiplicadores. Ataque Poderoso (×2) em alguém Exposto (×2) = <b>[A] × 3</b>, não ×4.</p>
+  </div></details>
+  <details><summary><b>Amedrontado</b></summary><div class="body">
+    <p>Depois de qualquer Teste, <b>reduza [A] em 1</b> por nível. No seu turno, você ou um parça pode <b>gastar 3 de Resistência</b> para fazer um <b>Assegurar</b> (qualquer Estilo): em sucesso, remove até [A] níveis. Pode repetir enquanto tiver Resistência.</p>
+  </div></details>
+  <details><summary><b>Fadigado</b> e <b>Descansado</b></summary><div class="body">
+    <p><b>Fadigado:</b> Resistência máxima −1 por nível.<br><b>Descansado:</b> Resistência máxima +1 por nível.</p>
+    <p>Se você ganhar um quando já tem o outro, eles se cancelam nível a nível.</p>
+  </div></details>
+  <details><summary><b>Escondido</b></summary><div class="body">
+    <p>Seus Ataques têm <b>Vantagem</b> e Ataques contra você têm <b>Desvantagem</b>. Você não pode virar alvo do monstro (se já é, continua até ele escolher outro). Acaba depois de qualquer Teste. Fora do combate, a Guia decide caso a caso.</p>
+  </div></details>
+  <details><summary><b>Dissonante</b></summary><div class="body">
+    <p>Desvantagem em <b>todos</b> os Testes. Acaba quando a Harmonia sobe acima de 0.</p>
+  </div></details>
+</section>
+
+<!-- ============ TRILHA ============ -->
+<section class="panel" id="trilha" role="tabpanel" hidden>
+  <h1>A Trilha</h1>
+  <p class="lead">Viajar pelos ermos, seguir rastros e chegar ao monstro. A cada rodada o grupo escolhe: <b>Colher suprimentos</b> ou <b>Seguir viagem</b>.</p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <h2>O mapa é feito de Áreas</h2>
+  <div class="grid">
+    <div class="card"><h3>⚠️ Perigo</h3>Quão difícil é o terreno.</div>
+    <div class="card"><h3>📏 Distância</h3>Quanto tempo leva para cruzar (× nº de ferais).</div>
+    <div class="card"><h3>🌲 Traços</h3>Características únicas da paisagem.</div>
+    <div class="card"><h3>🥕 Ingredientes</h3>O que dá para colher ali.</div>
+  </div>
+
+  <h2>Rastros: onde está o monstro?</h2>
+  <div class="grid">
+    <div class="card"><h3>Rastro Fresco</h3>Monstro a <b>1 Área</b> de distância.</div>
+    <div class="card"><h3>Rastro Antigo</h3>Monstro a <b>2 Áreas</b> de distância.</div>
+  </div>
+  <p>Todo rastro aponta uma direção (Área vizinha). Ao entrar na Área do monstro, vai direto para <b>A Caçada</b>.</p>
+
+  <h2>Opção A: Colher suprimentos</h2>
+  <p>Você não avança, mas recupera forças.</p>
+  <ol class="steps">
+    <li><b>Forragear.</b> Cada feral faz uma rolagem de <b>BUSCA</b> com um Estilo. Se passar, colhe <b>[A] porções</b> de um Ingrediente. O Estilo escolhido define o tipo de Ingrediente.</li>
+    <li><b>Acampar.</b> Todos removem as Condições (menos Dissonante e Ferido) e o grupo <b>cozinha uma refeição</b> (aba Banquete).</li>
+  </ol>
+  <details class="ex"><summary>Qual Estilo para qual Ingrediente?</summary><div class="body">
+    <ul>
+      <li><b>Poderoso</b>: tubérculos enterrados em solo duro.</li>
+      <li><b>Preciso</b>: cogumelos que podem ser confundidos com venenosos.</li>
+      <li><b>Ligeiro</b>: frutas no alto de árvores.</li>
+      <li><b>Capcioso</b>: pequenos roedores que fogem se te ouvem.</li>
+    </ul>
+  </div></details>
+
+  <h2>Opção B: Seguir viagem</h2>
+  <p>Você sempre progride, mas os Testes dizem <i>o quanto isso custa</i>. Não dá para cozinhar nem descansar (só comer um Lanche).</p>
+  <ol class="steps">
+    <li><b>Comece o Desafio:</b> VA = <b>Distância da Área × nº de ferais</b>. Um único turno para completar.</li>
+    <li><b>Trilheiro:</b> um feral se voluntaria. Faz <b>Travessia</b> (qualquer Estilo). Sucesso: soma [A] e, no resto do turno, quem usar o <b>mesmo Estilo</b> tem Vantagem. Falha: soma 0 e quem usar o mesmo Estilo tem Desvantagem. Ele sempre percebe direção e tempo dos rastros da Área.</li>
+    <li><b>Viagem:</b> os demais fazem <b>Travessia</b> (qualquer Estilo) e somam seu [A].</li>
+    <li><b>Resultado:</b> falhou no Desafio? Cada feral sofre <b>Dano = Distância que faltou + Perigo da Área</b>. Passou? Cada feral perde <b>Resistência = Perigo</b>. Nos dois casos, vão para a Área vizinha.</li>
+  </ol>
+  <div class="callout warn"><b class="t">Cuidado</b>O trilheiro também é quem leva o golpe se um Evento atingir uma só pessoa.</div>
+  <details class="ex"><summary>Exemplo de conta: falhou no Desafio</summary><div class="body">
+    <p>VA 25 (Distância 5 × 5 ferais). O grupo soma só 18 → faltaram <b>7</b>. O Perigo da Área é <b>2</b>.</p>
+    <p>Cada feral sofre 7 + 2 = <b>9 de Dano</b>: vocês se perderam, toparam com um imprevisto ou o terreno sugou suas forças.</p>
+  </div></details>
+  <details><summary>Como cada Estilo viaja? (para narrar)</summary><div class="body">
+    <p>Obstáculo: pedras bloqueando o caminho.</p>
+    <ul><li><b>Poderoso</b>: empurra os destroços.</li><li><b>Preciso</b>: avança testando a estabilidade a cada passo.</li><li><b>Ligeiro</b>: pula de pedra em pedra e olha o terreno do alto.</li><li><b>Capcioso</b>: esgueira-se fora da vista de predadores.</li></ul>
+  </div></details>
+
+  <h2>Fim da rodada: Eventos</h2>
+  <p>A Guia marca os tiques de tempo e depois acontece um <b>Evento</b>, uma pequena cena. Pode ser calma ou um obstáculo (Desafio). Se for um Desafio, voltem à fase livre para resolvê-lo.</p>
+  <details><summary>Regras especiais durante Jornadas</summary><div class="body">
+    <ul>
+      <li>Testes de Jornada <b>não</b> checam parcial/crítico. Um [A] baixo já é o revés (ex.: só 1 Ingrediente).</li>
+      <li>Ao virar o bicho várias vezes seguidas na mesma situação, <b>só descreva o Traço na primeira vez</b>.</li>
+      <li>Comer um <b>Lanche</b> é possível a qualquer momento ao seguir viagem.</li>
+    </ul>
+  </div></details>
+</section>
+
+<!-- ============ COMBATE ============ -->
+<section class="panel" id="cacada" role="tabpanel" hidden>
+  <h1>A Caçada (combate)</h1>
+  <p class="lead">Você enfrenta um monstro em frenesi. Combate tático, com turnos alternados entre o grupo e o monstro.</p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <h2>Partes e Durabilidade</h2>
+  <p>Monstros têm <b>PARTES</b> (garra, cauda, asas…). O nome é visível; o que fazem, você descobre lutando. Cada Parte tem <b>Durabilidade</b>.</p>
+  <ul>
+    <li>Ao causar Dano <b>a uma Parte</b>, ela perde Durabilidade <b>e</b> a criatura perde a mesma Resistência.</li>
+    <li>Parte com 0 de Durabilidade <b>quebra</b> e passa a usar a descrição "Se Quebrado".</li>
+    <li>Parte quebrada que sofre mais Dano continua em 0, mas a criatura <b>ainda perde Resistência</b>.</li>
+  </ul>
+  <div class="callout"><b class="t">Seu Utensílio é uma Parte</b>20 de Durabilidade. Se ele sofre Dano, você perde a mesma Resistência. Quebrado: alcance volta para 1 (Golpe) e causa <b>metade</b> do Dano. Técnicas ainda funcionam.</div>
+  <details><summary>Tom: "quebrado" é pesado demais?</summary><div class="body">
+    <p>Se a mesa preferir, trate Partes quebradas como entorpecidas, presas ou debilitadas. Em tom sombrio, pode enfatizar que o monstro em frenesi sofre tanto que nem percebe.</p>
+  </div></details>
+
+  <h2>Distância: Pernadas</h2>
+  <p>Tudo se mede <b>em relação ao monstro</b>, que está sempre na posição <b>0</b>. Em geral, ferais ficam entre <b>0 e 4 Pernadas</b>. Rodear o monstro é automático; aproximar ou afastar custa uma ação.</p>
+
+  <h2>Como começa</h2>
+  <div class="grid">
+    <div class="card"><h3>👥 Grupo com iniciativa</h3><p>Cada feral joga um turno com <b>1 Ação</b>. O monstro não age na 1ª rodada. (Se o grupo entrou na Área do monstro.)</p></div>
+    <div class="card"><h3>🐲 Monstro com iniciativa</h3><p>Escolhe o alvo e age com <b>3 Ações</b>. O grupo não age. (Se o monstro entrou na Área do grupo.)</p></div>
+  </div>
+
+  <h2>Rodadas seguintes</h2>
+  <ol class="steps">
+    <li>A Guia anuncia o <b>alvo</b> do monstro.</li>
+    <li>O grupo age primeiro; cada feral tem <b>3 Ações</b> no seu turno (ordem livre a cada rodada).</li>
+    <li>O monstro faz <b>1 turno depois de cada feral</b>. Em <b>uma</b> dessas vezes por rodada pode fazer um <b>turno completo (3 Ações)</b>; nos demais, só <b>1 Ação</b>.</li>
+    <li>Quando todos agiram, nova rodada.</li>
+  </ol>
+
+  <h2>Opções de combate</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Ação</th><th>Custo</th><th>O que faz</th></tr>
+    <tr><td><b>Atacar</b></td><td>varia</td><td>Golpe (perto) ou Tiro (longe) com qualquer Estilo. Cada ataque do turno usa um Estilo <b>diferente</b>.</td></tr>
+    <tr><td><b>Levantar a Guarda</b></td><td>2 Ações</td><td>Até seu próximo turno, <b>metade do Dano</b>.</td></tr>
+    <tr><td><b>Mover</b></td><td>1 Ação</td><td><b>Aproximar</b> 1 Pernada, <b>Distanciar</b> 1 Pernada, ou <b>Agrupar</b> com um parça a 0 Pernadas (se o monstro se move em relação a um, move também em relação ao outro).</td></tr>
+    <tr><td><b>Preparar</b></td><td>1 Ação</td><td><b>+1 Ação</b> no próximo turno (1 vez por turno).</td></tr>
+    <tr><td><b>Provocar</b></td><td>1 Ação</td><td>Se estiver a 1 Pernada, você vira o alvo do monstro.</td></tr>
+    <tr><td><b>Comer</b></td><td>1 Ação</td><td>Come um Lanche.</td></tr>
+    <tr><td><b>Ajudar</b></td><td>1 Harmonia</td><td>No turno de um parça, antes da rolagem: Vantagem a ele.</td></tr>
+    <tr><td><b>Usar um Traço</b></td><td>varia</td><td>Custa Ações, Sucessos ou Resistência, ou é passivo.</td></tr>
+  </table></div>
+
+  <h3>Atacar: o Estilo muda tudo</h3>
+  <div class="grid">
+    <div class="card"><h3>PODEROSO <span class="tag">2 Ações</span></h3><p>Sucesso: <b>[A] × 2</b> de Dano. Falha: você fica <b>Exposto</b>.</p></div>
+    <div class="card"><h3>PRECISO <span class="tag">2 Ações</span></h3><p>Sucesso: <b>[A]</b> de Dano na <b>Parte escolhida</b>.</p></div>
+    <div class="card"><h3>LIGEIRO <span class="tag">1 Ação</span></h3><p>Sucesso: <b>[A]</b> de Dano.</p></div>
+    <div class="card"><h3>CAPCIOSO <span class="tag">1 Ação</span></h3><p>Sucesso: <b>[A]</b> de Dano na <b>Parte escolhida</b>. Falha: <b>Exposto</b>.</p></div>
+  </div>
+  <details class="ex"><summary>Exemplo: um turno de 3 Ações</summary><div class="body">
+    <p>Besouro está a 1 Pernada do kakwari e tem 3 Ações:</p>
+    <ol>
+      <li><b>Mover (1 Ação)</b>: pula nas costas do monstro, de 1 para 0 Pernadas.</li>
+      <li><b>Atacar Capcioso (1 Ação)</b>: mira a <b>CAUDA</b> para quebrá-la.</li>
+      <li><b>Atacar Ligeiro (1 Ação)</b>: golpe rápido. Usou um Estilo <i>diferente</i> do primeiro ataque, como exigido.</li>
+    </ol>
+    <p class="mini">Alternativa: um único Ataque Poderoso (2 Ações) + Preparar (1 Ação) para ter 4 Ações no turno seguinte.</p>
+  </div></details>
+  <details class="ex"><summary>Exemplo: matemática de Exposto</summary><div class="body">
+    <p>Um monstro Exposto leva Dano em dobro. Se levar um ataque Poderoso (×2), os multiplicadores <b>somam</b>: 2 + 2 − 1 = <b>×3</b>, e não ×4.</p>
+  </div></details>
+
+  <h2>Como o monstro escolhe o alvo</h2>
+  <p>No começo de cada rodada, a Guia segue esta lista e para na primeira que se aplicar:</p>
+  <ol class="steps">
+    <li>Alguém está <b>Exposto</b> → é o alvo.</li>
+    <li>Alguém cumpre o <b>critério especial</b> do monstro (ex.: o último que se moveu).</li>
+    <li>O feral <b>mais próximo</b>.</li>
+  </ol>
+  <p>O monstro só pode <b>Atacar</b> o alvo, mas ainda pode usar Traços em outros. Se o alvo cair (Ferido 3 e permanecer caído), escolhe outro na hora. Um monstro em frenesi Ferido 3 <b>sempre força a barra</b>. Se morrer, começa O Banquete.</p>
+  <div class="callout ok"><b class="t">Truques de grupo</b><b>Provocar</b> puxa a atenção do monstro para quem aguenta. <b>Escondido</b> tira você da lista de alvos. <b>Levantar a Guarda</b> também remove Exposto.</div>
+
+  <h2>E se todo mundo cair?</h2>
+  <p>Se todos ficarem <b>Ferido 3</b>, a Guia deixa o grupo se reagrupar (ex.: uma feral veterana lhes dá comida medicinal e zomba deles). A Resistência e as Condições do <b>monstro não</b> se curam nesse intervalo.</p>
+</section>
+
+<!-- ============ BANQUETE ============ -->
+<section class="panel" id="banquete" role="tabpanel" hidden>
+  <h1>O Banquete</h1>
+  <p class="lead">Depois da caça, você cozinha o monstro onde ele caiu, honra o que ele foi e herda um pouco dele. Também vale para as refeições do dia a dia.</p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <h2>Banquete feral (a refeição do monstro)</h2>
+  <ol class="steps">
+    <li><b>Respondam</b> às perguntas da cena (podem repetir com respostas diferentes):
+      <ul class="mini">
+        <li>Como vocês vão cozinhar o monstro?</li>
+        <li>O que vão fazer para preparar a refeição?</li>
+        <li>O que mais vão servir no banquete?</li>
+      </ul>
+    </li>
+    <li><b>Para cada resposta, façam uma pergunta</b> (à Guia ou ao grupo):
+      <ul class="mini">
+        <li>Como esta refeição se conecta ao seu passado?</li>
+        <li>Do que você vai se lembrar da próxima vez que comer isto?</li>
+        <li>Quantos níveis o monstro tem em determinado <b>Estilo</b>? Em determinada <b>Habilidade</b>? Qual é um dos <b>Traços</b> dele?</li>
+      </ul>
+    </li>
+    <li><b>Deem graças</b>: um feral faz uma prece curta ou longa, séria ou boba. Depois, todos comem.</li>
+    <li><b>Ganhem poder</b>: escolha um <b>Estilo, Habilidade ou Traço</b> em que o monstro tenha <b>mais níveis do que você</b>. Ganha <b>+1 nível permanente</b>.</li>
+  </ol>
+  <div class="callout"><b class="t">Prece de Old Paw (exemplo)</b>"Obrigado por este presente, [nome do monstro]. Nós o recebemos com amor."</div>
+  <details class="ex"><summary>Exemplo: Telun e o monstro com VENENO e VOAR 2</summary><div class="body">
+    <p>O monstro tem 1 nível em VENENO (sem número = 1) e 2 níveis em VOAR. Telun não tem nenhum dos dois. Escolhe VOAR e ganha <b>VOAR 1</b> permanente, não VOAR 2. Para o nível 2, precisa de outro banquete.</p>
+  </div></details>
+  <details><summary>Perguntas mais específicas valem?</summary><div class="body">
+    <p>Sim. Ex.: "Qual Traço o monstro usou para nos deixar Amedrontados?". Na primeira vez que alguém pergunta sobre Traços, a Guia também revela <b>quantos Traços</b> o monstro tem no total.</p>
+  </div></details>
+
+  <h2>Refeições do dia a dia</h2>
+  <p>Você cozinha ao <b>Acampar</b> ou durante a fase livre. Ingredientes e Lanches são do <b>grupo</b>: ninguém precisa controlar quem carrega o quê.</p>
+  <ol class="steps">
+    <li><b>Selecione Ingredientes.</b> Só os com "I" maiúsculo têm efeito. Os básicos (óleo, sal, farinha) você sempre tem.</li>
+    <li><b>Resistência:</b> <b>1 por Ingrediente</b> usado. <b>Tempero</b> não conta, mas <b>dobra</b> o total dos outros (só uma vez, mesmo com vários Temperos).</li>
+    <li><b>Efeito:</b> escolha <b>um</b> dos efeitos disponíveis. Efeitos iguais <b>se somam</b>. Confira condições.</li>
+    <li><b>Sirva fresca</b> (todos que quiser recuperam e recebem o efeito; se reforçarem o vínculo, <b>+1 Harmonia</b>) <b>ou guarde</b> como Lanche (porções = Harmonia atual).</li>
+  </ol>
+  <div class="callout ok"><b class="t">Não precisa ser chef</b>Não sabe conservar carne sem geladeira? Diga que tem um refrigerador portátil de arkaicaço. Cozinhar não exige rolagem; a qualidade não muda o efeito mecânico.</div>
+
+  <details><summary>Efeitos comuns dos Ingredientes</summary><div class="body">
+    <ul>
+      <li>Receba <b>(+1)</b> em um <b>Estilo</b> até a próxima refeição.</li>
+      <li>Receba <b>(+1)</b> em uma <b>Habilidade</b> até a próxima refeição.</li>
+      <li>Receba <b>(1) nível</b> em um <b>Traço</b> até a próxima refeição.</li>
+      <li>Receba ou remova <b>(1) nível</b> de uma <b>Condição</b>.</li>
+      <li>Recupere <b>(1)</b> de Durabilidade de uma Parte.</li>
+    </ul>
+    <p class="mini">O número entre parênteses é o que cresce quando você cozinha vários Ingredientes com aquele efeito.</p>
+  </div></details>
+
+  <details><summary>Ingredientes Raros e Temperos</summary><div class="body">
+    <p><b>Raro:</b> em vez de colher [A] porções de 1 Resistência, você colhe <b>1 porção que recupera [A]</b>. Anote o valor quando colher.</p>
+    <p><b>Tempero:</b> não soma Resistência, mas <b>dobra</b> a dos outros Ingredientes da refeição.</p>
+  </div></details>
+
+  <details><summary>Lanches e outros itens</summary><div class="body">
+    <p><b>Lanche:</b> algo de um gole ou mordida (cantil, pílula, carne-seca). Beneficia <b>1 pessoa</b>. Em combate, comer custa <b>1 Ação</b>.</p>
+    <p><b>Itens em geral:</b> faça um Teste de <b>Armazenamento</b> (a Guia escolhe o Estilo pelo item):</p>
+    <ul><li><b>Poderoso</b>: itens volumosos ou duráveis (barril de água, capa).</li><li><b>Preciso</b>: quantidade exata (um queijo específico, antídoto).</li><li><b>Ligeiro</b>: itens versáteis (faca serrilhada, carta de crédito).</li><li><b>Capcioso</b>: itens escondidos ou duvidosos (pó sedativo, máscara).</li></ul>
+    <p class="mini">São Testes retroativos: você verifica se <i>trouxe</i> aquilo. Só role se houver algo em risco.</p>
+  </div></details>
+
+  <h2>Calculadora de refeição 🧮</h2>
+  <div class="card">
+    <p class="mini">Informe os Ingredientes e veja a Resistência.</p>
+    <div class="sim">
+      <label>Ingredientes comuns (1 Res. cada)<input type="number" id="cNormal" min="0" value="4"></label>
+      <label>Raros (soma da Res. deles)<input type="number" id="cRare" min="0" value="0"></label>
+      <label>Temperos (quantidade)<input type="number" id="cSpice" min="0" value="1"></label>
+      <button class="btn primary" id="cBtn">Calcular</button>
+    </div>
+    <div id="cOut" class="callout ok" style="margin-top:12px" aria-live="polite"></div>
+  </div>
+
+  <h2>Receitas de exemplo</h2>
+  <details class="ex"><summary>Panquecas com manteiga de prótea-real · recupera 1</summary><div class="body">
+    <p>1 Semente de Prótea-real (sem efeito). 1 Ingrediente = <b>1 de Resistência</b>, sem efeito. Simples assim.</p>
+  </div></details>
+  <details class="ex"><summary>Bolinhos de peixasa · recupera 5 + VOAR</summary><div class="body">
+    <p>4 Sementes de Prótea-real + 1 Peixasa = <b>5 Ingredientes → 5 de Resistência</b>. O único efeito é o da Peixasa: <b>(1) VOAR</b> até a próxima refeição. Quem já tem VOAR vai a VOAR 2.</p>
+  </div></details>
+  <details class="ex"><summary>Sopa de macarrão · recupera 8 + (+3) Poderoso</summary><div class="body">
+    <p>4 Sementes + 1 Peixasa + 2 Repolhos com pimentão + 1 Broto de Cem Anos = 4+1+2+1 = <b>8 de Resistência</b>.</p>
+    <p>Escolhe-se o efeito <b>(+1) Poderoso</b>. Soma: 2 Repolhos (cada um dá +1 porque a refeição recupera 8+) + Broto (+1) = <b>+3 Poderoso</b> até a próxima refeição. A Peixasa não entra no efeito final, mas era necessária para chegar a 8 de Resistência.</p>
+  </div></details>
+  <details class="ex"><summary>Chá de mel aurora · recupera 10 e remove 2 Ferido</summary><div class="body">
+    <p>2 Balsamel Raros (5 e 3 de Resistência) + 1 Limão Aurora + 1 Pétala de Flor de Menta → 5 + 3 + 1 + 1 = <b>10 de Resistência</b>.</p>
+    <p>Cada Balsamel diz "se recupera 10+, remova (1) Ferido". Os dois se somam → <b>remove 2 níveis de Ferido</b>.</p>
+  </div></details>
+  <details class="ex"><summary>Pratanguejo no vapor · recupera 4 + REGENERAÇÃO</summary><div class="body">
+    <p>Pratanguejo + Alho-das-Vinhas (2 comuns = 2) + 2 Temperos (Shoyu e Vinagre). O 1º Tempero dobra: 2 → <b>4</b>. O 2º Tempero <b>não dobra de novo</b>.</p>
+    <p>Como recupera 4+, o Pratanguejo dá <b>(1) REGENERAÇÃO</b>.</p>
+  </div></details>
+
+  <h2>Ideias de preparo (role 1d6 em cada coluna)</h2>
+  <div class="tablewrap"><table>
+    <tr><th>1d6</th><th>Método</th><th>Textura</th><th>Sabor</th></tr>
+    <tr><td>1</td><td>Cozido</td><td>Borrachento</td><td>Amargo</td></tr>
+    <tr><td>2</td><td>Frito</td><td>Cremoso</td><td>Rico</td></tr>
+    <tr><td>3</td><td>Grelhado</td><td>Crocante</td><td>Salgado</td></tr>
+    <tr><td>4</td><td>Em salmoura</td><td>Firme</td><td>Azedo</td></tr>
+    <tr><td>5</td><td>No vapor</td><td>Líquido</td><td>Picante</td></tr>
+    <tr><td>6</td><td>Ensopado</td><td>Macio</td><td>Doce</td></tr>
+  </table></div>
+  <button class="btn" id="dishBtn">🎲 Sortear um prato</button> <span id="dishOut" class="k" style="margin-left:6px" aria-live="polite"></span>
+</section>
+
+<!-- ============ AVENTURA ============ -->
+<section class="panel" id="aventura" role="tabpanel" hidden>
+  <h1>Aventura: Receita para o Desastre</h1>
+  <p class="lead">Aventura tutorial do Guia Rápido. Os ferais acordam presos; um kakwari em frenesi escapa, e o grupo precisa caçá-lo. <b>Atenção: contém spoilers para jogadores.</b></p>
+  <div class="toolbar"><button class="btn" data-expand="open">Abrir tudo</button><button class="btn" data-expand="close">Fechar tudo</button></div>
+
+  <div class="flow">
+    <div><b>1. Sinais</b>Jaulas, calor e o kakwari gritando.</div>
+    <div><b>2. Trilha</b>3 Áreas, 4 rodadas de viagem.</div>
+    <div><b>3. Caçada</b>Kakwari (30 de Resistência).</div>
+    <div><b>4. Banquete</b>Destino de Pãodoce.</div>
+  </div>
+
+  <h2>A situação</h2>
+  <p>Os ferais foram capturados por <b>caçadores clandestinos</b> comandados por <b>Aotan "Trancas" Gung</b>, para vendê-los (e seus utensílios) ao Cartel. Estão sob o <b>Vilarejo Peikhu</b>, uma aldeia suspensa nas árvores. Entre as feras enjauladas: o <b>kakwari</b>, a <b>mammudo Pãodoce</b>, um <b>botabo</b> e um <b>hagsechu</b>. O kakwari entra em frenesi, foge e solta todos.</p>
+  <div class="grid">
+    <div class="card"><h3>Aotan "Trancas" Gung</h3>Chefe dos caçadores. Parece um contador, é cruel.</div>
+    <div class="card"><h3>Va Tin Khua</h3>Líder do vilarejo. Cansada, firme, quer que todos vão embora. Devolve os utensílios e pede que os ferais cacem o kakwari.</div>
+    <div class="card"><h3>Pãodoce</h3>Mammudo jovem e tímida, conhecida de todos os ferais.</div>
+  </div>
+  <details><summary>Última preparação do grupo</summary><div class="body">
+    <p>Escolham um voluntário para ser o <b>chefe de cozinha</b> (anota Ingredientes e Lanches). Cada feral entra com <b>3 porções de Prato Típico</b> (sem efeito) e <b>1 de Tempero Típico</b> (Tempero, sem efeito).</p>
+  </div></details>
+
+  <h2>A Trilha: 3 Áreas em sequência</h2>
+  <p>Rastros Antigos no Bosque, Frescos no Horto, kakwari na Queimada. Um <b>4-Tiques</b> marca o movimento do monstro: se zerar, ele emboscará o grupo (e Pãodoce sofre ferimento grave e permanente).</p>
+  <div class="tablewrap"><table>
+    <tr><th>Área</th><th>Perigo</th><th>Distância</th><th>Especial</th></tr>
+    <tr><td><b>Bosque Retorcido</b></td><td>1</td><td>5 × ferais</td><td><b>Folhagem Densa:</b> Travessia Poderosa custa +5 de Resistência.</td></tr>
+    <tr><td><b>Horto da Doçura</b></td><td>2</td><td>5 × ferais</td><td><b>Terreno Traiçoeiro:</b> Desvantagem em Travessia Ligeira.</td></tr>
+    <tr><td><b>A Queimada</b></td><td>—</td><td>—</td><td>Sem tempo para forragear: a Caçada começa ao entrar.</td></tr>
+  </table></div>
+
+  <details><summary>Ingredientes do Bosque Retorcido e do Horto</summary><div class="body">
+    <div class="tablewrap"><table>
+      <tr><th>Estilo</th><th>Ingrediente</th><th>Efeito</th></tr>
+      <tr><td>Poderoso</td><td>Raiz coxim</td><td>Ganhe (1) <b>Descansado</b></td></tr>
+      <tr><td>Preciso, [A] ≤ 4</td><td>Gaultheria dos Tolos</td><td>Tempero. Ganhe (1) <b>Fadigado</b></td></tr>
+      <tr><td>Preciso, [A] ≥ 5</td><td>Gaultheria dos Sábios</td><td>Tempero. Sem efeito</td></tr>
+      <tr><td>Ligeiro</td><td>Ovo de Wari</td><td>Raro. Se recupera 8+: (+1) Busca ou (+1) Travessia</td></tr>
+      <tr><td>Capcioso (Bosque)</td><td>Arroz arbóreo</td><td>Sem efeito</td></tr>
+      <tr><td>Capcioso (Horto)</td><td>Bálsamo de mel</td><td>Raro. Se recupera 10+: cure (1) <b>Ferido</b></td></tr>
+    </table></div>
+  </div></details>
+
+  <h2>Eventos (fim de cada rodada de viagem)</h2>
+  <p>Use <b>#1, #2, #3</b> nas rodadas 1, 2, 3 (introdução suave). Para mais desafio, troque por <b>#4</b> ou <b>#5</b>. No fim da rodada 4, <b>sempre #6</b>.</p>
+  <details><summary>#1 Caçadores clandestinos</summary><div class="body">
+    <p>Trancas reuniu os restos da gangue para roubar os utensílios. O trilheiro faz um Teste (abordagem livre):</p>
+    <ul><li>Falha: 5 de Dano, cercado.</li><li>Parcial: 3 de Dano, luta livre.</li><li>Padrão: escapa do ataque inicial.</li><li>Crítico: escapa e os caçadores brigam entre si (Vantagem para quem aproveitar).</li></ul>
+    <p>Depois, Desafio <b>VA 10</b>. Quem falha no Desafio sofre <b>1d8</b> de Dano.</p>
+  </div></details>
+  <details><summary>#2 Encruzilhada</summary><div class="body">
+    <p>Escolha entre rota <b>Confusa</b> (próximo turno, Travessia só com <b>Preciso</b>) ou <b>Exaustiva</b> (próximo turno, Travessia só com <b>Poderoso</b>).</p>
+  </div></details>
+  <details><summary>#3 Caminhando e conversando</summary><div class="body">
+    <p>Cena calma. Um feral aborda um parça para impressionar, confortar, conhecer ou ensinar. Com sucesso ou falha, os dois que conversam <b>recuperam 1 de Resistência</b>.</p>
+  </div></details>
+  <details><summary>#4 Criaturas hostis</summary><div class="body">
+    <p>No Bosque: o <b>hagsechu</b> fugitivo emboca o trilheiro. No Horto: o <b>botabo</b> caça os ferais. A criatura <b>não está em frenesi</b>, só com fome. Matar ou ferir gravemente <b>reduz a Harmonia</b>.</p>
+    <ul><li>Falha: 10 de Dano e perde todas as porções de um Ingrediente aleatório.</li><li>Parcial: 5 de Dano.</li><li>Padrão: desvia do ataque.</li><li>Crítico: desvia e a criatura desiste; próximo Teste com Vantagem.</li></ul>
+    <p>Depois, Desafio <b>VA 10</b>. Quem falha: <b>1d20</b> de Dano.</p>
+  </div></details>
+  <details><summary>#5 Passagem do Bondinhaço</summary><div class="body">
+    <p>Um veículo flutuante de arkaicaço, de eras passadas, que ignora trilhos e destrói tudo no caminho. Desafio <b>VA 10</b> para contornar, ou esperar (perde a próxima rodada de viagem, mas resolve sozinho).</p>
+  </div></details>
+  <details><summary>#6 Kakwari (emboscada)</summary><div class="body">
+    <p>O kakwari embosca o grupo. Começa a Caçada. Pãodoce não está em lugar nenhum.</p>
+  </div></details>
+
+  <h2>A Caçada contra o kakwari</h2>
+  <div class="grid">
+    <div class="card"><h3>Se acharam ele na Queimada</h3>Todos a <b>3 Pernadas</b>. O grupo tem a iniciativa. Pãodoce está enrolada no chão, com arranhões leves.</div>
+    <div class="card"><h3>Se ele emboscou o grupo (#6)</h3>O trilheiro a <b>1 Pernada</b>, os demais a <b>4</b>. O kakwari tem a iniciativa. Pãodoce está ferida em outro lugar.</div>
+  </div>
+
+  <h3>Ficha do kakwari (a Guia usa)</h3>
+  <div class="card">
+    <p><b>Resistência 30</b> · Estilos: <span class="k">+3 Poderoso</span> <span class="k">+2 Capcioso</span> · Habilidades: <span class="k">+2 Chamado</span> <span class="k">+3 Exibição</span> <span class="k">+1 Busca</span> <span class="k">+1 Golpe</span></p>
+    <div class="tablewrap"><table>
+      <tr><th>Parte</th><th>Dur.</th><th>Efeito</th><th>Se quebrada</th></tr>
+      <tr><td><b>Garras</b></td><td>15</td><td>Alcance 1 (Golpe Poderoso)</td><td>Metade do Dano</td></tr>
+      <tr><td><b>Cauda</b></td><td>15</td><td>Alcance 1 (Golpe Capcioso). Após acertar, causa [A] de Dano a <b>todos</b> a 1 Pernada, exceto o alvo</td><td>Metade do Dano. Não pode Ostentar</td></tr>
+      <tr><td><b>Asas</b></td><td>15</td><td>Passivo (0 Ação): ao ficar Ferido ou perder uma Parte, move uma criatura 1 Pernada, outra 2 e as demais 3</td><td>Não faz nada</td></tr>
+    </table></div>
+    <p><b>Traços:</b> <b>BRIO</b>; <b>OSTENTAR</b> (2 Ações, Exibição Poderosa: cura [A] Resistência a si e aliados); <b>AMEAÇAR 2</b> (1 Sucesso Poderoso: deixa criaturas a 1 Pernada <b>Amedrontadas</b>).</p>
+  </div>
+  <details><summary>Comportamento do kakwari (guia para a Guia)</summary><div class="body">
+    <ul>
+      <li><b>Alvo:</b> se ninguém estiver Exposto, mira uma criatura <b>não Amedrontada</b> (odeia quem o desafia). Se todas ou nenhuma estiverem, a mais próxima.</li>
+      <li><b>Ferido?</b> Não: cauteloso, turno completo no <b>último</b> turno da rodada. Sim: furioso, turno completo <b>o mais cedo possível</b>.</li>
+      <li><b>Pouca Resistência?</b> Usa OSTENTAR e gasta Sucessos extras em AMEAÇAR.</li>
+      <li><b>Várias criaturas a 1 Pernada e Cauda inteira?</b> Golpe Capcioso com a Cauda.</li>
+      <li><b>Instinto:</b> atacar o alvo a 1 Pernada com Golpes Poderosos das Garras, e usar sucessos Poderosos para Ameaçar.</li>
+      <li><b>Turnos curtos sem ideia?</b> Prepare. Ferido, use as Asas para pular e reposicionar.</li>
+    </ul>
+  </div></details>
+  <details><summary>Dica para o grupo</summary><div class="body">
+    <p>O kakwari escolhe os mais corajosos (não Amedrontados). <b>Provocar</b>, <b>Levantar a Guarda</b> e quebrar a <b>Cauda</b> reduzem os estragos em área. Se um feral Amedrontado fizer um Assegurar (3 de Resistência), limpa o medo do grupo.</p>
+  </div></details>
+
+  <h2>O fim</h2>
+  <p>Pãodoce, ilesa, volta à floresta. Ferida, precisa de cuidado. Se pegou frenesi, nunca volta à natureza, mas cuidada cedo pode ter o frenesi controlado. Os ferais ganham poder e decidem: ficar como guardiões ou seguir viagem.</p>
+</section>
+
+<!-- ============ COLA ============ -->
+<section class="panel" id="cola" role="tabpanel" hidden>
+  <h1>Cola rápida</h1>
+  <p class="lead">Tudo o que você precisa durante a mesa, em uma tela.</p>
+
+  <div class="card">
+    <h3>🎲 Fazer um Teste</h3>
+    <ol class="mini" style="color:var(--text)">
+      <li>Estilo + Habilidade.</li>
+      <li>Pilha: d6 = nível do Estilo.</li>
+      <li>Segure a onda (+d8) <b>ou</b> vire o bicho (−1 d6, +d20; falhou = −1 Harmonia).</li>
+      <li>Role e some +1 por nível de Habilidade em qualquer dado.</li>
+      <li>d6 de 5+ = Sucesso. [A]: 1–4 parcial, 5–7 padrão, 8+ crítico. Sucesso extra → BRIO (+1 [A]).</li>
+    </ol>
+    <p class="mini">Vantagem = 4+. Desvantagem = 6.</p>
+  </div>
+
+  <div class="grid" style="margin-top:12px">
+    <div class="card"><h3>🧭 Trilha</h3>
+      <p><b>Colher:</b> Busca (Estilo = tipo) → [A] porções. Acampa: some Condições (exceto Dissonante/Ferido) + refeição.</p>
+      <p><b>Seguir:</b> Desafio VA = Distância × ferais. Trilheiro + demais fazem Travessia.<br>Falha: Dano = faltou + Perigo. Sucesso: perde Perigo de Resistência.</p></div>
+    <div class="card"><h3>⚔️ Combate (3 Ações)</h3>
+      <p>Poderoso 2A: [A]×2, falha Exposto.<br>Preciso 2A: [A] na Parte.<br>Ligeiro 1A: [A].<br>Capcioso 1A: [A] na Parte, falha Exposto.<br>Guarda 2A · Mover 1A · Preparar 1A · Provocar 1A · Comer 1A.</p></div>
+    <div class="card"><h3>🍲 Refeição</h3>
+      <p>1 Resistência por Ingrediente. Tempero dobra (1 vez).<br>1 efeito, os iguais se somam.<br>Fresca: +1 Harmonia se vincularem. Guardada: porções = Harmonia.</p></div>
+    <div class="card"><h3>❤️ Medidores</h3>
+      <p>Resistência máx. 20. Zerou = Ferido, volta a 20.<br>Ferido 2: não gasta. Ferido 3: caído; forçar = morte no próximo Dano.<br>Harmonia (grupo) começa em 3.</p></div>
+  </div>
+
+  <h2>Checklist de combate</h2>
+  <div class="card" id="combatChecklist">
+    <label class="chk"><input type="checkbox"><span>Distâncias iniciais e iniciativa definidas</span></label>
+    <label class="chk"><input type="checkbox"><span>Partes do monstro reveladas (nomes)</span></label>
+    <label class="chk"><input type="checkbox"><span>Início da rodada: Guia anuncia o alvo</span></label>
+    <label class="chk"><input type="checkbox"><span>Cada feral usa suas 3 Ações (Estilos diferentes se atacar mais de uma vez)</span></label>
+    <label class="chk"><input type="checkbox"><span>Monstro: 1 turno por feral, 1 deles completo (3 Ações)</span></label>
+    <label class="chk"><input type="checkbox"><span>Anotar Resistência e Durabilidade das Partes</span></label>
+    <label class="chk"><input type="checkbox"><span>Monstro morreu? → Banquete</span></label>
+    <button class="btn" id="resetChk">Limpar checklist</button>
+  </div>
+
+  <h2>Contador de Harmonia</h2>
+  <div class="card">
+    <p class="mini">Marcador do grupo (máx. 3 no Guia Rápido).</p>
+    <div class="pill-row" style="align-items:center">
+      <button class="btn" id="hDown" aria-label="Diminuir Harmonia">−</button>
+      <span class="dice" id="hVal" style="min-width:56px;height:46px;font-size:1.4rem">3</span>
+      <button class="btn" id="hUp" aria-label="Aumentar Harmonia">+</button>
+      <span id="hNote" class="mini"></span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Guia de apoio não oficial, feito por fãs a partir do <i>Wilderfeast — Guia Rápido v1.6</i> (CapyCat Games / Horrible Games). Wilderfeast e seus logos são marcas da Horrible Games S.r.l. Este material resume as regras para consulta, não as substitui. Apoie o jogo completo: <a href="https://catarse.me/wilderfeast">catarse.me/wilderfeast</a>. Referências de página se aplicam ao Guia Rápido.</p>
+</footer>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panels=[].slice.call(document.querySelectorAll('.panel'));
+  function show(id,push){
+    if(!document.getElementById(id)) id='inicio';
+    tabs.forEach(function(t){var on=t.dataset.tab===id;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;if(on&&t.scrollIntoView)t.scrollIntoView({block:'nearest',inline:'center'});});
+    panels.forEach(function(p){p.hidden=p.id!==id;});
+    if(push){try{history.replaceState(null,'','#'+id);}catch(e){}}
+    window.scrollTo({top:0});
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.dataset.tab,true);});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+      if(e.key==='ArrowLeft')n=tabs[(i-1+tabs.length)%tabs.length];
+      if(n){e.preventDefault();n.focus();show(n.dataset.tab,true);}
+    });
+  });
+  document.addEventListener('click',function(e){
+    var g=e.target.closest('[data-goto]');
+    if(g){show(g.dataset.goto,true);return;}
+    var x=e.target.closest('[data-expand]');
+    if(x){
+      var open=x.dataset.expand==='open';
+      x.closest('.panel').querySelectorAll('details').forEach(function(d){d.open=open;});
+    }
+  });
+  window.addEventListener('hashchange',function(){show(location.hash.slice(1));});
+  show(location.hash.slice(1)||'inicio');
+
+  // tema
+  var root=document.documentElement;
+  try{var th=localStorage.getItem('wf-theme');if(th)root.dataset.theme=th;}catch(e){}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+    var nx=cur==='light'?'dark':'light';root.dataset.theme=nx;
+    try{localStorage.setItem('wf-theme',nx);}catch(e){}
+  });
+
+  // simulador
+  function d(n){return 1+Math.floor(Math.random()*n);}
+  document.getElementById('rollBtn').addEventListener('click',function(){
+    var style=+sStyle.value,skill=+sSkill.value,side=sSide.value,adv=sAdv.value;
+    var th=adv==='a'?4:adv==='d'?6:5;
+    var n=side==='b'?Math.max(0,style-1):style;
+    var dice=[];for(var i=0;i<n;i++)dice.push(d(6));
+    var act=side==='h'?d(8):d(20), raw=dice.slice(), rawAct=act, bonus=skill, log=[];
+    var succ=function(){return dice.filter(function(v){return v>=th;}).length;};
+    if(succ()===0&&dice.length&&bonus>0){
+      var idx=0;dice.forEach(function(v,i){if(v>dice[idx])idx=i;});
+      var need=th-dice[idx];
+      if(need<=bonus){dice[idx]=th;bonus-=need;log.push('+'+need+' no d6 mais alto para garantir um Sucesso');}
+    }
+    if(bonus>0){act+=bonus;log.push('+'+bonus+' no Dado de Ação');bonus=0;}
+    var s=succ(), html='<div>';
+    dice.forEach(function(v,i){html+='<span class="dice'+(v>=th?' ok':'')+'" title="rolou '+raw[i]+'">'+v+'</span>';});
+    html+='<span class="dice act" title="rolou '+rawAct+'">'+act+'</span></div>';
+    if(!dice.length){html+='<p><b>Sem Dados de Estilo: falha automática.</b></p>';}
+    else if(s===0){html+='<p><b style="color:var(--danger)">FALHA.</b> A situação muda; perde-se a oportunidade.'+(side==='b'?' <b>Como virou o bicho, o grupo perde 1 de Harmonia.</b>':'')+'</p>';}
+    else{
+      var q=act>=8?'crítico':act>=5?'padrão':'parcial';
+      html+='<p><b style="color:var(--accent2)">SUCESSO '+q.toUpperCase()+'</b> · '+s+' sucesso'+(s>1?'s':'')+' · [A] = <b>'+act+'</b></p>';
+      if(s>1)html+='<p class="mini">Sucessos extras: '+(s-1)+'. Gaste em BRIO (+1 [A] cada → [A] '+(act+s-1)+') ou em Traços que custem Sucessos.</p>';
+    }
+    if(log.length)html+='<p class="mini">Bônus de Habilidade: '+log.join('; ')+'.</p>';
+    simOut.innerHTML=html;
+  });
+
+  // calculadora de refeição
+  document.getElementById('cBtn').addEventListener('click',function(){
+    var n=Math.max(0,+cNormal.value||0),r=Math.max(0,+cRare.value||0),s=Math.max(0,+cSpice.value||0);
+    var base=n+r,tot=s>0?base*2:base;
+    cOut.innerHTML='Base: <b>'+base+'</b>'+(s>0?' × 2 (Tempero, só uma vez) = ':' = ')+'<b>'+tot+' de Resistência</b> por pessoa.'+(tot>=8?' <br>Atingiu 8+ (muitos Ingredientes só funcionam a partir daqui).':'')+(tot>=10?' <br>Atingiu 10+.':'');
+  });
+  cBtn.click();
+
+  // sorteio de prato
+  var M=['Cozido','Frito','Grelhado','Em salmoura','No vapor','Ensopado'],T=['Borrachento','Cremoso','Crocante','Firme','Líquido','Macio'],S=['Amargo','Rico','Salgado','Azedo','Picante','Doce'];
+  document.getElementById('dishBtn').addEventListener('click',function(){
+    dishOut.textContent=M[d(6)-1]+' · '+T[d(6)-1]+' · '+S[d(6)-1];
+  });
+
+  // checklist e harmonia
+  document.querySelectorAll('#combatChecklist .chk input').forEach(function(c){
+    c.addEventListener('change',function(){c.parentNode.classList.toggle('done',c.checked);});
+  });
+  document.getElementById('resetChk').addEventListener('click',function(){
+    document.querySelectorAll('#combatChecklist .chk input').forEach(function(c){c.checked=false;c.parentNode.classList.remove('done');});
+  });
+  var h=3;
+  function renderH(){
+    hVal.textContent=h;
+    hNote.textContent=h===0?'Em 0: quem reduzir mais fica Dissonante.':'';
+  }
+  hUp.addEventListener('click',function(){h=Math.min(3,h+1);renderH();});
+  hDown.addEventListener('click',function(){h=Math.max(0,h-1);renderH();});
+})();
+</script>
+</body>
+</html>
